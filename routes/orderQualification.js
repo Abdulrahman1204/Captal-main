@@ -1,18 +1,17 @@
 const express = require("express");
 const {createOrderQualification,deleteOrderQualification,getAllOrderQualifications, getOrderQualificationById, updateOrderQualification, updateStatus} = require("../controllers/orderQualificationController");
-const { verifyToken,verifyUser} = require("../middlewares/verifyToken");
+const { verifyToken, verifyRoles } = require("../middlewares/verifyToken");
 const router = express.Router();
-const validId = require('../middlewares/validateId');
 
 
 // api/captal/orderQualification
-router.route("/").post(createOrderQualification).get(getAllOrderQualifications);
+router.route("/").post(createOrderQualification).get(verifyToken, verifyRoles("admin"), getAllOrderQualifications);
 
 // /api/captal/orderQualification/:id
-router.route("/:id").put(validId, updateOrderQualification).delete(validId, deleteOrderQualification).get(validId, getOrderQualificationById); 
+router.route("/:id").put(verifyToken, verifyRoles("admin"), updateOrderQualification).delete(verifyToken, verifyRoles("admin"), deleteOrderQualification).get(verifyToken, verifyRoles("admin"), getOrderQualificationById); 
 
 // /api/captal/orderQualification/status/:id
-router.route("/status/:id").patch( validId, updateStatus)
+router.route("/status/:id").patch( verifyToken, verifyRoles("admin"), updateStatus)
 
 
 

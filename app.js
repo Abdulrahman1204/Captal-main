@@ -49,11 +49,14 @@ app.get("/api/captal/get-cookies", (req, res) => {
     // Or verify the token if you have the secret
     // const decoded = jwt.verify(myCookieToken, 'your-secret-key');
 
-    const role = decoded?.role; // Assuming the role is stored in the 'role' claim
+    const role = decoded?.role;
+    const id = decoded?.id; // Assuming the role is stored in the 'role' claim
+     // Assuming the role is stored in the 'role' claim
 
     res.json({
       cookieValue: myCookieToken,
       role: role || "No role found in token",
+      id: id || "No Id found in Token"
     });
   } catch (error) {
     res.status(400).json({
