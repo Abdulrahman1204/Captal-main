@@ -64,10 +64,20 @@ module.exports.getOrderMaterialById = asyncHandler(async (req, res) => {
   res.status(200).json(order);
 });
 
+// @desc    Get Order Material By UserId
+// @route   PUT /api/captal/orderMaterial/contractor/:id
+// @access  Private
+module.exports.getOrdersForContractor = asyncHandler(async(req,res)=>{
+  const user = await User.findById(req.params.id)
+  console.log({user: req.params.id})
+  if (!user) return res.status(404).json({ message: "User not found" });
+  const order = await MaterialsOrder.find({userId: req.params.id});
+  res.status(200).json(order)
+})
+
 // @desc    Update Order Material By ID
 // @route   PUT /api/captal/orderMaterial/:id
 // @access  Private
-
 module.exports.updateOrderMaterial = [
   upload,
   asyncHandler(async (req, res) => {

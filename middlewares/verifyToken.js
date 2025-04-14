@@ -29,6 +29,16 @@ function verifyAdmin(req, res, next) {
   });
 }
 
+function verifyContractor(req, res, next) {
+  verifyToken(req, res, () => {
+    if (req.user?.role === "contractor") {
+      next();
+    } else {
+      return res.status(403).json({ message: "Access denied: Contractors only" });
+    }
+  });
+}
+
 function verifyUser(req, res, next) {
   verifyToken(req, res, () => {
     const userIdFromToken = req.user?.id;
@@ -54,4 +64,4 @@ function verifyRoles(...allowedRoles) {
   };
 }
 
-module.exports = { verifyToken, verifyAdmin, verifyUser, verifyRoles };
+module.exports = { verifyToken, verifyContractor, verifyAdmin, verifyUser, verifyRoles };

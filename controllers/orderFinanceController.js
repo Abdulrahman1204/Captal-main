@@ -58,25 +58,27 @@ module.exports.getAllOrderFinance = asyncHandler(async (req, res) => {
 // @desc    Get Order Finance By ID
 // @route   GET /api/captal/orderFinance/:id
 // @access  Private    
-
 module.exports.getOrderFinanceById = asyncHandler(async (req, res) => {
   const order = await OrderFinance.findById(req.params.id);
   if (!order) return res.status(404).json({ message: "Order not found" });
   res.status(200).json(order);
 });
 
-module.exports.getOrdersForRecourse = asyncHandler(async(req,res)=>{
+
+// @desc    Get Order Finance By User Id
+// @route   GET /api/captal/orderFinance/contractor/:id
+// @access  Private  
+module.exports.getOrdersForContractor = asyncHandler(async(req,res)=>{
   const user = await User.findById(req.params.id)
+  console.log({user: req.params.id})
   if (!user) return res.status(404).json({ message: "User not found" });
-  const order = await OrderFinance.findById(req.params.userId);
+  const order = await OrderFinance.find({userId: req.params.id});
   res.status(200).json(order)
 })
 
 // @desc    Update Order Finance By ID
 // @route   PUT /api/captal/orderFinance/:id
 // @access  Private
-
-
 module.exports.updateOrderFinance = [
   upload,
   asyncHandler(async (req, res) => {

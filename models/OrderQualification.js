@@ -33,7 +33,6 @@ const orderSchema = new mongoose.Schema({
     trim: true,
     minlength: 5,
     maxlength: 100,
-    unique: true,
     lowercase: true
   },
   companyName: {
@@ -44,7 +43,7 @@ const orderSchema = new mongoose.Schema({
     maxlength: 100,
   },
   dateOfCompany: {
-    type: Date,
+    type: String,
     required: true,
   },
   lastYearRevenue: {

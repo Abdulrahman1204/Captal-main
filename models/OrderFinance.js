@@ -33,7 +33,6 @@ const orderSchema = new mongoose.Schema({
     trim: true,
     minlength: 5,
     maxlength: 100,
-    unique: true,
     lowercase: true
   },
   companyName: {
@@ -44,7 +43,7 @@ const orderSchema = new mongoose.Schema({
     maxlength: 100,
   },
   dateOfCompany: {
-    type: Date,
+    type: String,
     required: true,
   },
   lastYearRevenue: {
@@ -90,7 +89,7 @@ function validationOrderFinance(obj) {
     phone: Joi.string().pattern(/^[0-9]{10}$/).required(),
     email: Joi.string().email().required(),
     companyName: Joi.string().trim().min(3).max(100).required(),
-    dateOfCompany: Joi.date().required(),
+    dateOfCompany: Joi.string().required(),
     lastYearRevenue: Joi.string().required(),
     requiredAmount: Joi.string().required(),
     description: Joi.string().optional()
@@ -106,7 +105,7 @@ function validationUpdateOrderFinance(obj) {
     phone: Joi.string().pattern(/^[0-9]{10}$/),
     email: Joi.string().email(),
     companyName: Joi.string().trim().min(3).max(100),
-    dateOfCompany: Joi.date(),
+    dateOfCompany: Joi.string(),
     lastYearRevenue: Joi.string(),
     requiredAmount: Joi.string(),
     statusOrder: Joi.string().valid("accepted", "not accepted", "pending"),

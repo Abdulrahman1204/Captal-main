@@ -12,7 +12,7 @@ const {verifyAdmin} = require("../middlewares/verifyToken")
 router.post("/",verifyAdmin, createClassfiMaterial);
 
 // GET /api/classificationMaterial
-router.get("/", getAllClassfiMaterial);
+router.get("/", verifyAdmin, getAllClassfiMaterial);
 
 // GET /api/classificationMaterial/:id
 router.get("/:id",verifyAdmin, getClassfiMaterialById);

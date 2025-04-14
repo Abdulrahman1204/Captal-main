@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const joi = require("joi");
 
 // MaterialsOrder Schema
-const  materialsOrder = new mongoose.Schema(
+const materialsOrder = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -72,7 +72,7 @@ const  materialsOrder = new mongoose.Schema(
     statusUser: {
       type: String,
       enum: ["visited", "eligible"], // visited = زائر، eligible = مسجل دخول
-      default: "visited"
+      default: "visited",
     },
     statusOrder: {
       type: String,
@@ -86,19 +86,18 @@ const  materialsOrder = new mongoose.Schema(
     },
     attachedFile: {
       publicId: { type: String, default: null },
-      url: { type: String, default: "" }
+      url: { type: String, default: "" },
     },
-      userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        default: null
-      }
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   {
     timestamps: true,
   }
 );
-
 
 // Create Validation
 const validateCreateMatrialOrder = (obj) => {
@@ -137,8 +136,11 @@ const validateUpdateMatrialOrder = (obj) => {
   return schema.validate(obj);
 };
 
-
 // MaterialsOrder Model
 const MaterialsOrder = mongoose.model("MaterialsOrder", materialsOrder);
 
-module.exports = { MaterialsOrder, validateCreateMatrialOrder, validateUpdateMatrialOrder };
+module.exports = {
+  MaterialsOrder,
+  validateCreateMatrialOrder,
+  validateUpdateMatrialOrder,
+};

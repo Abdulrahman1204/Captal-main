@@ -1,18 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const { verifyToken,verifyUser} = require("../middlewares/verifyToken");
-const validId = require('../middlewares/validateId');
-const {getAllOrderFinance,createOrderFinance,deleteOrderFinance,getOrderFinanceById,updateOrderFinance,updateStatus} = require("../controllers/orderFinanceController")
+const { verifyToken, verifyUser, verifyContractor, verifyAdmin } = require("../middlewares/verifyToken");
+const validId = require("../middlewares/validateId");
+const {
+  getAllOrderFinance,
+  createOrderFinance,
+  deleteOrderFinance,
+  getOrderFinanceById,
+  updateOrderFinance,
+  updateStatus,
+  getOrdersForContractor,
+} = require("../controllers/orderFinanceController");
 // /api/captal/orderFinance
-router.route("/").post(createOrderFinance).get(getAllOrderFinance)
+router.route("/").post(createOrderFinance).get(verifyAdmin, getAllOrderFinance);
 
 // /api/captal/orderFinance/:id
-router.route("/:id").put(validId, updateOrderFinance).delete(validId, deleteOrderFinance).get(validId, getOrderFinanceById); 
+router
+  .route("/:id")
+  .put(verifyAdmin, updateOrderFinance)
+  .delete(verifyAdmin, deleteOrderFinance)
+  .get(verifyAdmin, getOrderFinanceById);
 
 // /api/captal/orderFinance/status/:id
-router.route("/status/:id").patch( validId, updateStatus)
+router.route("/status/:id").patch(verifyAdmin, updateStatus);
 
 // /api/captal/orderFinance/:userId
-
-
-module.exports = router
+router.route('/contractor/:id').get(verifyContractor, getOrdersForContractor)
+module.exports = router;
