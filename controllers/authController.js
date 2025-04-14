@@ -28,11 +28,10 @@ const sendOTP = asyncHandler(async (req, res) => {
   user.expiresAt = expiresAt;
   await user.save();
 
-  console.log(`📲 OTP for ${phone}: ${otp}`);
-
   res.status(200).json({
     message: 'تم إرسال كود التحقق بنجاح',
-    user: user._id
+    user: user._id,
+    otp: user.otp
   });
 });
 
