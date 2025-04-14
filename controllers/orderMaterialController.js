@@ -146,7 +146,7 @@ module.exports.deleteOrderMaterial = asyncHandler(async (req, res) => {
 // @route   PUT /api/captal/orderMaterial/status/:id
 // @access  Private (admin or specific role)
 module.exports.updateStatus = asyncHandler(async (req, res) => {
-  const { error } = validationUpdateMatrialsOrder(req.body);
+  const { error } = validateUpdateMatrialOrder(req.body); // Fixed function name
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }

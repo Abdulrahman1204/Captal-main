@@ -69,11 +69,6 @@ const materialsOrder = new mongoose.Schema(
       minLength: 2,
       maxLength: 100,
     },
-    statusUser: {
-      type: String,
-      enum: ["visited", "eligible"], // visited = زائر، eligible = مسجل دخول
-      default: "visited",
-    },
     statusOrder: {
       type: String,
       enum: ["accepted", "not accepted", "pending"],
