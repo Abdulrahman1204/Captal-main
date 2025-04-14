@@ -22,17 +22,6 @@ module.exports.createMaterialOrder = [
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    // let categories = req.body.categories;
-    // try {
-    //   if (typeof categories === "string") {
-    //     categories = JSON.parse(categories);
-    //   }
-    // } catch (e) {
-    //   return res.status(400).json({
-    //     message: "البيانات غير صالحة، تحقق من matrials أو categories",
-    //   });
-    // }
-
     const existingSerial = await Materials.findOne({
       serialNumber: req.body.serialNumber,
     });
@@ -148,32 +137,9 @@ module.exports.deleteMatrialOrder = asyncHandler(async (req, res) => {
   if (!matrial) {
     return res.status(404).json({ message: "Matrial not found" });
   }
-  const DeleteMatrial = await Order.findByIdAndDelete(req.params.id);
+  const DeleteMatrial = await Materials.findByIdAndDelete(req.params.id);
   res.status(200).json({
-    message: "Order has been deleted successfully",
+    message: "Matrial has been deleted successfully",
     DeleteMatrial,
   });
-});
-
-/**
- * @desc Update Status of Matrials order
- * @route /api/captal/matrial/status/:id
- * @method PUT
- * @access private
- */
-module.exports.updateStatus = asyncHandler(async (req, res) => {
-  const { error } = validationUpdateMatrialsOrder(req.body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
-  const updatedstatus = await Materials.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: {
-        statusOrder: req.body.statusOrder,
-      },
-    },
-    { new: true }
-  );
-  res.status(200).json(updatedstatus);
 });

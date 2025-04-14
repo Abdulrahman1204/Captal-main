@@ -51,12 +51,12 @@ app.get("/api/captal/get-cookies", (req, res) => {
 
     const role = decoded?.role;
     const id = decoded?.id; // Assuming the role is stored in the 'role' claim
-     // Assuming the role is stored in the 'role' claim
+    // Assuming the role is stored in the 'role' claim
 
     res.json({
       cookieValue: myCookieToken,
       role: role || "No role found in token",
-      id: id || "No Id found in Token"
+      id: id || "No Id found in Token",
     });
   } catch (error) {
     res.status(400).json({

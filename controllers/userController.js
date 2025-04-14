@@ -3,9 +3,7 @@ const {
   User,
   validationUpdateUser,
   validationCreateUser,
-} = require("../models/User");
-const jwt = require("jsonwebtoken");
-const { cloudinaryUploadImage } = require("../utils/cloudinary");
+} = require("../models/User");  
 const fs = require("fs");
 const upload = require("../middlewares/photoUpload");
 

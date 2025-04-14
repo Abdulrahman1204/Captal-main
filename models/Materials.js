@@ -23,14 +23,6 @@ const matrialSchema = new mongoose.Schema(
       publicId: { type: String, default: null },
       url: { type: String, default: "" },
     },
-    // categories: {
-    //   type: [String],
-    //   required: true,
-    //   validate: {
-    //     validator: (v) => Array.isArray(v) && v.length > 0,
-    //     message: "يجب إدخال تصنيف واحد على الأقل",
-    //   },
-    // },
   },
   {
     timestamps: true,
