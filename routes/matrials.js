@@ -10,3 +10,4 @@ router.route("/").get(getAllMaterialsOrder).post(verifyAdmin, createMaterialOrde
 router.route("/:id").get(verifyAdmin,getMaterialOrderByID).put(verifyAdmin,updateMaterialOrder).delete(verifyAdmin,deleteMatrialOrder)
 
 module.exports = router
+

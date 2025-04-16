@@ -39,6 +39,7 @@ app.use(
   require("./routes/classficationMaterial")
 );
 app.use("/api/captal/recourseUserOrder", require("./routes/recourseUser"));
+app.use("/api/captal/", require("./routes/sendEmail"));
 app.get("/api/captal/get-cookies", (req, res) => {
   const myCookieToken = req.cookies.token;
 

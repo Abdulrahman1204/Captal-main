@@ -128,6 +128,32 @@ function validateRecourseUserOrder(obj) {
   return schema.validate(obj);
 }
 
+// validation update recourse order
+function validateUpdateRecourseUserOrder(obj) {
+  const schema = Joi.object({
+    recourseName: Joi.string(),
+    recoursePhone: Joi.string(),
+    clientName: Joi.string(),
+    clientPhone: Joi.string(),
+    projectName: Joi.string(),
+    dateOfproject: Joi.date(),
+    attachedFile: Joi.object({
+      publicId: Joi.string(),
+      url: Joi.string()
+    }),
+    materials: Joi.string(),
+    paymentCheck: Joi.string().valid("cash", "delayed"),
+    advance: Joi.string(),
+    uponDelivry: Joi.string(),
+    afterDelivry: Joi.string(),
+    country: Joi.string(),
+    countryName: Joi.string(),
+    postAddress: Joi.string(),
+    street: Joi.string(),
+  });
+  return schema.validate(obj);
+}
+
 // Joi Validation for status update only
 function validateStatusUpdate(obj) {
   const schema = Joi.object({
@@ -141,5 +167,6 @@ const RecourseUserOrder = mongoose.model("RecourseUserOrder", recourseUserOrderS
 module.exports = {
   RecourseUserOrder,
   validateRecourseUserOrder,
+  validateUpdateRecourseUserOrder,  
   validateStatusUpdate
 };
