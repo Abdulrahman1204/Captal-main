@@ -8,17 +8,17 @@ const {
   updateOrderStatus,
   deleteRecourseUserOrder,
 } = require("../controllers/recourseUserController");
-const { verifyToken ,verifyAdmin,verifyRoles} = require("../middlewares/verifyToken");
+const { verifyToken,verifyRoles} = require("../middlewares/verifyToken");
 
 router
   .route("/")
-  .post(verifyAdmin, createRecourseUserOrder)
+  .post(verifyToken,verifyRoles("admin"), createRecourseUserOrder)
   .get(verifyToken,verifyRoles("recourse"), getAllRecourseUserOrders);
 
 router.route("/:id")
-  .get(verifyAdmin, getRecourseUserOrderById)
-  .put(verifyAdmin, updateRecourseUserOrder)
-  .delete(verifyAdmin, deleteRecourseUserOrder);
+  .get(verifyToken,verifyRoles("admin"), getRecourseUserOrderById)
+  .put(verifyToken,verifyRoles("admin"), updateRecourseUserOrder)
+  .delete(verifyToken,verifyRoles("admin"), deleteRecourseUserOrder);
 
 router.route("/:id/status")
   .patch(verifyToken,verifyRoles("recourse"), updateOrderStatus);

@@ -39,18 +39,6 @@ function verifyContractor(req, res, next) {
   });
 }
 
-function verifyUser(req, res, next) {
-  verifyToken(req, res, () => {
-    const userIdFromToken = req.user?.id;
-    const userIdFromRequest = req.params.userId || req.body.userId || req.query.userId;
-
-    if (userIdFromToken === userIdFromRequest) {
-      next();
-    } else {
-      return res.status(403).json({ message: "Access denied: Not the user" });
-    }
-  });
-}
 
 function verifyRoles(...allowedRoles) {
   return (req, res, next) => {
@@ -64,4 +52,4 @@ function verifyRoles(...allowedRoles) {
   };
 }
 
-module.exports = { verifyToken, verifyContractor, verifyAdmin, verifyUser, verifyRoles };
+module.exports = { verifyToken, verifyRoles };
