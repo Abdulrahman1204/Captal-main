@@ -25,9 +25,10 @@ const userSchema = new mongoose.Schema(
       trim: true,
       unique: true,
       validate: {
-        validator: v => /^[0-9]{10}$/.test(v),
-        message: props => `${props.value} is not a valid 10-digit phone number!`,
-      }
+        validator: (v) => /^[0-9]{10}$/.test(v),
+        message: (props) =>
+          `${props.value} is not a valid 10-digit phone number!`,
+      },
     },
     email: {
       type: String,
@@ -50,7 +51,7 @@ const userSchema = new mongoose.Schema(
     },
     otp: {
       type: String,
-      length: 6
+      length: 6,
     },
     expiresAt: {
       type: Date,
@@ -61,19 +62,21 @@ const userSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps : true,
+    timestamps: true,
   }
 );
 // validation Login User
-function validationLoginAndCreateUser(obj) {
+function validationCreateUser(obj) {
   const schema = Joi.object({
     firstName: Joi.string().trim().min(3).max(100).required(),
     lastName: Joi.string().trim().min(3).max(100).required(),
-    phone: Joi.string().pattern(/^[0-9]{10}$/).required(),
+    phone: Joi.string()
+      .pattern(/^[0-9]{10}$/)
+      .required(),
     companyName: Joi.string().trim().min(3).max(100).required(),
     DateOfCompany: Joi.date().required(),
     email: Joi.string().trim().min(3).max(100).required().email(),
-    role: Joi.string().valid("contractor","recourse","admin").required()
+    role: Joi.string().valid("contractor", "recourse", "admin").required(),
   });
   return schema.validate(obj);
 }
@@ -81,7 +84,9 @@ function validationLoginAndCreateUser(obj) {
 // validation Login User
 function validationLoginUser(obj) {
   const schema = Joi.object({
-    phone: Joi.string().pattern(/^[0-9]{10}$/).required()
+    phone: Joi.string()
+      .pattern(/^[0-9]{10}$/)
+      .required(),
   });
   return schema.validate(obj);
 }
@@ -89,9 +94,9 @@ function validationLoginUser(obj) {
 // validation Update User
 function validationUpdateUser(obj) {
   const schema = Joi.object({
-  firstName: Joi.string().trim().min(3).max(100),
-  lastName: Joi.string().trim().min(3).max(100),
-  email: Joi.string().trim().min(3).max(100).email(),
+    firstName: Joi.string().trim().min(3).max(100),
+    lastName: Joi.string().trim().min(3).max(100),
+    email: Joi.string().trim().min(3).max(100).email(),
   });
   return schema.validate(obj);
 }
@@ -101,7 +106,7 @@ function validationUpdateUser(obj) {
 const User = mongoose.model("User", userSchema);
 module.exports = {
   User,
-  validationLoginAndCreateUser,
+  validationCreateUser,
   validationUpdateUser,
-  validationLoginUser
+  validationLoginUser,
 };

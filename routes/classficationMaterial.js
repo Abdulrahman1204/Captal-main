@@ -6,21 +6,21 @@ const {
   updateClassfiMaterial,
   deleteClassfiMaterial
 } = require("../controllers/classficationMaterialController");
-const {verifyAdmin} = require("../middlewares/verifyToken")
+const {verifyRoles, verifyToken} = require("../middlewares/verifyToken")
 
 // POST /api/classificationMaterial
-router.post("/",verifyAdmin, createClassfiMaterial);
+router.post("/",verifyToken, verifyRoles("admin"), createClassfiMaterial);
 
 // GET /api/classificationMaterial
-router.get("/", verifyAdmin, getAllClassfiMaterial);
+router.get("/", verifyToken, verifyRoles("admin"), getAllClassfiMaterial);
 
 // GET /api/classificationMaterial/:id
-router.get("/:id",verifyAdmin, getClassfiMaterialById);
+router.get("/:id",verifyToken, verifyRoles("admin"), getClassfiMaterialById);
 
 // PUT /api/classificationMaterial/:id
-router.put("/:id",verifyAdmin, updateClassfiMaterial);
+router.put("/:id",verifyToken, verifyRoles("admin"), updateClassfiMaterial);
 
 // DELETE /api/classificationMaterial/:id
-router.delete("/:id",verifyAdmin, deleteClassfiMaterial);
+router.delete("/:id",verifyToken, verifyRoles("admin"), deleteClassfiMaterial);
 
 module.exports = router;

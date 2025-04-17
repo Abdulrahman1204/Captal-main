@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const upload = require("../middlewares/photoUpload");
 const { MaterialsOrder, validateCreateMatrialOrder, validateUpdateMatrialOrder } = require("../models/OrderMaterial");
-const { validationUpdateMatrialsOrder } = require("../models/Materials");
+const { Materials } = require("../models/Materials");
 const { User } = require("../models/User");
 
 
@@ -16,6 +16,18 @@ module.exports.createOrderMaterial = [
       return res.status(400).json({ message: error.details[0].message });
     }
 
+    if (req.body.materials && req.body.materials.length > 0) {
+      const materialsExist = await Materials.find({
+        _id: { $in: req.body.materials }
+      });
+      
+      if (materialsExist.length !== req.body.materials.length) {
+        return res.status(400).json({ 
+          message: "One or more materials not found" 
+        });
+      }
+    }
+
     const existingUser = await User.findOne({ phone: req.body.phone });
 
     const statusUser = existingUser ? "eligible" : "visited";
@@ -24,6 +36,8 @@ module.exports.createOrderMaterial = [
     const uploadedFile = req.file
       ? { url: req.file.path, publicId: req.file.filename }
       : { url: "", publicId: null };
+
+
 
     const materialOrder = await MaterialsOrder.create({
       firstName: req.body.firstName,
@@ -37,7 +51,7 @@ module.exports.createOrderMaterial = [
       description: req.body.description,
       attachedFile: uploadedFile,
       statusUser,
-      userId
+      userId  
     });
 
     res.status(201).json({ message: "Order created successfully", materialOrder });

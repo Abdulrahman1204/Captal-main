@@ -48,11 +48,9 @@ const materialsOrder = new mongoose.Schema(
     },
     materials: [
       {
-        type: String,
-        required: true,
-        trim: true,
-        minLength: 2,
-        maxLength: 100,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Matrials",
+        default: null,
       },
     ],
     noteForQuantity: {
