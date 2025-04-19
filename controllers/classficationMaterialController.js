@@ -22,7 +22,7 @@ module.exports.createClassfiMaterial = asyncHandler(async (req, res) => {
 // @route   GET /api/classificationMaterialFather
 // @access  private
 module.exports.getAllClassfiMaterial = asyncHandler(async (req, res) => {
-  const materials = await classificationMaterialFather.find();
+  const materials = await classificationMaterialFather.find().populate('sonNames', 'sonName ');
   res.status(200).json({
     count: materials.length,
     data: materials

@@ -16,7 +16,7 @@ const matrialSchema = new mongoose.Schema(
     },
     classification: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "classificationMaterial",
+      ref: "classificationMaterialFather",
       required: true,
     },
     attachedFile: {

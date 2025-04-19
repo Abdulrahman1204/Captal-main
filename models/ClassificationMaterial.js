@@ -63,13 +63,18 @@ const classificationMaterialSonSchema = new mongoose.Schema(
   }
 );
 
-// Units
+// materialss
 classificationMaterialFatherSchema.virtual("materialss", {
   ref: "Matrials",  // يجب أن يتطابق مع اسم المودل
   foreignField: "classification",
   localField: "_id",
 });
 
+classificationMaterialFatherSchema.virtual("sonNames", {
+  ref: "classificationMaterialSon",  // ✅ التعديل هنا
+  foreignField: "fatherName",
+  localField: "_id",
+});
 
 // validation create classficationMaterialFather
 function validationClassficationMatrialsFather(obj) {

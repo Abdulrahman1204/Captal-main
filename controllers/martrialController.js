@@ -5,7 +5,7 @@ const {
   Materials,
   validationUpdateMatrialsOrder,
 } = require("../models/Materials");
-const { ClassificationMaterial } = require("../models/classificationMaterial");
+const { ClassificationMaterial, classificationMaterialFather } = require("../models/classificationMaterial");
 
 /**
  * @desc Create Material Order
@@ -29,7 +29,7 @@ module.exports.createMaterialOrder = [
       return res.status(409).json({ message: "الرقم التسلسلي مستخدم مسبقاً" });
     }
 
-    const classification = await ClassificationMaterial.findById(
+    const classification = await classificationMaterialFather.findById(
       req.body.classification
     );
     if (!classification) {
