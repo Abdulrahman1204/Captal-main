@@ -7,6 +7,7 @@ const {
   updateRecourseUserOrder,
   updateOrderStatus,
   deleteRecourseUserOrder,
+  getLocation,
 } = require("../controllers/recourseUserController");
 const { verifyToken,verifyRoles} = require("../middlewares/verifyToken");
 
@@ -22,5 +23,8 @@ router.route("/:id")
 
 router.route("/:id/status")
   .patch(verifyToken,verifyRoles("recourse"), updateOrderStatus);
+
+
+router.route('/location/address-from-coords').get(verifyToken,verifyRoles("admin"),getLocation);
 
 module.exports = router;

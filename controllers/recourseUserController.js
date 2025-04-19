@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const axios = require('axios');
 const { 
   RecourseUserOrder, 
   validateRecourseUserOrder,
@@ -6,6 +7,7 @@ const {
   validateUpdateRecourseUserOrder
 } = require("../models/RecourseUserOrder");
 const { User } = require("../models/User");
+const { getAddressFromCoords } = require("../utils/location");
 
 // @desc    Create new order
 // @route   POST /api/recourseUserOrder
@@ -23,27 +25,30 @@ module.exports.createRecourseUserOrder = asyncHandler(async (req, res) => {
       ? { url: req.file.path, publicId: req.file.filename }
       : { url: "", publicId: null };
 
-  const order = new RecourseUserOrder({
-    recourseName: req.body.recourseName,
-    recoursePhone: req.body.recoursePhone,
-    clientName: req.body.clientName,
-    clientPhone: req.body.clientPhone,
-    serialNumber: req.body.serialNumber,
-    projectName: req.body.projectName,
-    dateOfproject: req.body.dateOfproject,
-    attachedFile: uploadedFile,
-    materials: req.body.materials || null,
-    paymentCheck: req.body.paymentCheck,
-    advance: req.body.advance,
-    uponDelivry: req.body.uponDelivry,
-    afterDelivry: req.body.afterDelivry,
-    country: req.body.country,
-    countryName: req.body.countryName,
-    postAddress: req.body.postAddress,
-    street: req.body.street,
-    userId : userId
-  });
-
+      const order = new RecourseUserOrder({
+        recourseName: req.body.recourseName,
+        recoursePhone: req.body.recoursePhone,
+        clientName: req.body.clientName,
+        clientPhone: req.body.clientPhone,
+        serialNumber: req.body.serialNumber,
+        projectName: req.body.projectName,
+        dateOfproject: req.body.dateOfproject || new Date(),
+        attachedFile: uploadedFile || { publicId: null, url: "" }, 
+        materials: req.body.materials || [],
+        paymentCheck: req.body.paymentCheck,
+        advance: req.body.advance,
+        uponDelivry: req.body.uponDelivry,
+        afterDelivry: req.body.afterDelivry,
+        country: req.body.country,
+        countryName: req.body.countryName,
+        postAddress: req.body.postAddress,
+        street: req.body.street,
+        location: {
+          type: "Point",
+          coordinates: req.body.location?.coordinates || [0, 0] 
+        },
+        userId: userId
+      });
   await order.save();
   res.status(201).json(order);
 });
@@ -190,3 +195,17 @@ module.exports.deleteRecourseUserOrder = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Order deleted successfully" });
 });
+
+module.exports.getLocation = asyncHandler( async (req, res) => {
+  try {
+    const { lat, lng } = req.query;
+    if (!lat || !lng) return res.status(400).json('Latitude and longitude are required');
+
+    const address = await getAddressFromCoords(lat, lng);
+    if (!address) return res.status(404).send('Address not found');
+
+    res.send(address);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+})
