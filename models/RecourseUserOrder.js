@@ -64,19 +64,7 @@ const recourseUserOrderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  country: {
-    type: String,
-    required: true,
-  },
   countryName: {
-    type: String,
-    required: true,
-  },
-  postAddress: {
-    type: String,
-    required: true,
-  },
-  street: {
     type: String,
     required: true,
   },
@@ -159,10 +147,10 @@ function validateRecourseUserOrder(obj) {
     advance: Joi.string().required(),
     uponDelivry: Joi.string().required(),
     afterDelivry: Joi.string().required(),
-    country: Joi.string().required(),
+    // country: Joi.string().required(),
     countryName: Joi.string().required(),
-    postAddress: Joi.string().required(),
-    street: Joi.string().required(),
+    // postAddress: Joi.string().required(),
+    // street: Joi.string().required(),
     location: Joi.object({
       type: Joi.string().valid("Point").default("Point"),
       coordinates: Joi.array().items(Joi.number()).length(2).required()
@@ -189,8 +177,8 @@ function validateUpdateRecourseUserOrder(obj) {
     advance: Joi.string(),
     uponDelivry: Joi.string(),
     afterDelivry: Joi.string(),
-    postAddress: Joi.string(),
-    street: Joi.string(),
+    // postAddress: Joi.string(),
+    // street: Joi.string(),
   });
   return schema.validate(obj);
 }

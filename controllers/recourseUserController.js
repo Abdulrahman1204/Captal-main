@@ -9,49 +9,54 @@ const {
 const { User } = require("../models/User");
 const { getAddressFromCoords } = require("../utils/location");
 
+const upload = require("../middlewares/photoUpload");
+
 // @desc    Create new order
 // @route   POST /api/recourseUserOrder
 // @access  Private
-module.exports.createRecourseUserOrder = asyncHandler(async (req, res) => {
-  const { error } = validateRecourseUserOrder(req.body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
-      const existingUser = await User.findOne({ phone: req.body.recoursePhone });
-      console.log(existingUser);
-      const userId = existingUser ? existingUser._id : null;
-
-      const uploadedFile = req.file
-      ? { url: req.file.path, publicId: req.file.filename }
-      : { url: "", publicId: null };
-
-      const order = new RecourseUserOrder({
-        recourseName: req.body.recourseName,
-        recoursePhone: req.body.recoursePhone,
-        clientName: req.body.clientName,
-        clientPhone: req.body.clientPhone,
-        serialNumber: req.body.serialNumber,
-        projectName: req.body.projectName,
-        dateOfproject: req.body.dateOfproject || new Date(),
-        attachedFile: uploadedFile || { publicId: null, url: "" }, 
-        materials: req.body.materials || [],
-        paymentCheck: req.body.paymentCheck,
-        advance: req.body.advance,
-        uponDelivry: req.body.uponDelivry,
-        afterDelivry: req.body.afterDelivry,
-        country: req.body.country,
-        countryName: req.body.countryName,
-        postAddress: req.body.postAddress,
-        street: req.body.street,
-        location: {
-          type: "Point",
-          coordinates: req.body.location?.coordinates || [0, 0] 
-        },
-        userId: userId
-      });
-  await order.save();
-  res.status(201).json(order);
-});
+module.exports.createRecourseUserOrder = [
+  upload,
+  asyncHandler(async (req, res) => {
+    const { error } = validateRecourseUserOrder(req.body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+        const existingUser = await User.findOne({ phone: req.body.recoursePhone });
+        console.log(existingUser);
+        const userId = existingUser ? existingUser._id : null;
+  
+        const uploadedFile = req.file
+        ? { url: req.file.path, publicId: req.file.filename }
+        : { url: "", publicId: null };
+  
+        const order = new RecourseUserOrder({
+          recourseName: req.body.recourseName,
+          recoursePhone: req.body.recoursePhone,
+          clientName: req.body.clientName,
+          clientPhone: req.body.clientPhone,
+          serialNumber: req.body.serialNumber,
+          projectName: req.body.projectName,
+          dateOfproject: req.body.dateOfproject || new Date(),
+          attachedFile: uploadedFile || { publicId: null, url: "" }, 
+          materials: req.body.materials || [],
+          paymentCheck: req.body.paymentCheck,
+          advance: req.body.advance,
+          uponDelivry: req.body.uponDelivry,
+          afterDelivry: req.body.afterDelivry,
+          // country: req.body.country,
+          countryName: req.body.countryName,
+          // postAddress: req.body.postAddress,
+          // street: req.body.street,
+          location: {
+            type: "Point",
+            coordinates: req.body.location?.coordinates || [0, 0] 
+          },
+          userId: userId
+        });
+    await order.save();
+    res.status(201).json(order);
+  })
+]
 
 // @desc    Get all orders
 // @route   GET /api/recourseUserOrder
@@ -132,10 +137,10 @@ module.exports.updateRecourseUserOrder = asyncHandler(async (req, res) => {
     advance: req.body.advance,
     uponDelivry: req.body.uponDelivry,
     afterDelivry: req.body.afterDelivry,
-    country: req.body.country,
+    // country: req.body.country,
     countryName: req.body.countryName,
-    postAddress: req.body.postAddress,
-    street: req.body.street
+    // postAddress: req.body.postAddress,
+    // street: req.body.street
   };
 
   try {
