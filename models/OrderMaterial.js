@@ -74,8 +74,8 @@ const materialsOrder = new mongoose.Schema(
     },
     statusUser: {
       type: String,
-      enum: ["visited", "eligible"],
-      default: "visited",
+      enum: ["زائر","مؤهل"],
+      default: "زائر"
     },
     attachedFile: {
       publicId: { type: String, default: null },
