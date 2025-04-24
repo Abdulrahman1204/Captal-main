@@ -18,7 +18,7 @@ router.get("/", verifyToken, verifyRoles("admin"), getAllClassfiMaterial);
 router.get("/:id",verifyToken, verifyRoles("admin"), getClassfiMaterialById);
 
 // PUT /api/classificationMaterial/:id
-router.put("/:id",verifyToken, verifyRoles("admin"), updateClassfiMaterial);
+// router.put("/:id",verifyToken, verifyRoles("admin"), updateClassfiMaterial);
 
 // DELETE /api/classificationMaterial/:id
 router.delete("/:id",verifyToken, verifyRoles("admin"), deleteClassfiMaterial);

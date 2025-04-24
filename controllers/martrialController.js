@@ -3,9 +3,8 @@ const upload = require("../middlewares/photoUpload");
 const {
   validationMatrialsOrder,
   Materials,
-  validationUpdateMatrialsOrder,
 } = require("../models/Materials");
-const { ClassificationMaterial, classificationMaterialFather } = require("../models/classificationMaterial");
+const { classificationMaterialFather } = require("../models/ClassificationMaterial");
 
 /**
  * @desc Create Material Order
@@ -82,49 +81,50 @@ module.exports.getMaterialOrderByID = asyncHandler(async (req, res) => {
  * @access private
  */
 
-module.exports.updateMaterialOrder = asyncHandler(async (req, res) => {
-  const { error } = validationUpdateMatrialsOrder(req.body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
+// module.exports.updateMaterialOrder = asyncHandler(async (req, res) => {
+//   const { error } = validationUpdateMatrialsOrder(req.body);
+//   if (error) {
+//     return res.status(400).json({ message: error.details[0].message });
+//   }
 
-  const matrial = await Materials.findById(req.params.id);
-  if (!matrial) {
-    return res.status(404).json({ message: "Matrial not found" });
-  }
+//   const matrial = await Materials.findById(req.params.id);
+//   if (!matrial) {
+//     return res.status(404).json({ message: "Matrial not found" });
+//   }
 
-  const existingSerial = await Materials.findOne({
-    serialNumber: req.body.serialNumber,
-  });
-  if (existingSerial) {
-    return res.status(409).json({ message: "الرقم التسلسلي مستخدم مسبقاً" });
-  }
+//   const existingSerial = await Materials.findOne({
+//     serialNumber: req.body.serialNumber,
+//   });
+//   if (existingSerial) {
+//     return res.status(409).json({ message: "الرقم التسلسلي مستخدم مسبقاً" });
+//   }
 
-  const classification = await ClassificationMaterial.findById(
-    req.body.classification
-  );
-  if (!classification) {
-    return res.status(409).json({ message: "التصنيف ليس موجود" });
-  }
+//   const classification = await classificationMaterialFather.findById(
+//     req.body.classification
+//   );
+//   if (!classification) {
+//     return res.status(409).json({ message: "التصنيف ليس موجود" });
+//   }
 
-  const updatedMatrial = await Materials.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: {
-        materialName: req.body.materialName,
-        serialNumber: req.body.serialNumber,
-        classification: req.body.classification,
-        attachedFile: uploadedFile,
-      },
-    },
-    { new: true }
-  );
+//   const updatedMatrial = await Materials.findByIdAndUpdate(
+//     req.params.id,
+//     {
+//       $set: {
+//         materialName: req.body.materialName,
+//         serialNumber: req.body.serialNumber,
+//         classification: req.body.classification,
+//         attachedFile: uploadedFile,
+//       },
+//     },
+//     { new: true }
+//   );
 
-  res.status(200).json({
-    message: "successfully",
-    updatedMatrial,
-  });
-});
+//   res.status(200).json({
+//     message: "successfully",
+//     updatedMatrial,
+//   });
+// });
+
 
 /**
  * @desc Delete Matrial Order

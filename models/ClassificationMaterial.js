@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-
-
 // classification Material Father Schema
 const classificationMaterialFatherSchema = new mongoose.Schema(
   {

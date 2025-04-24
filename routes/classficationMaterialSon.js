@@ -10,7 +10,7 @@ router.route("/")
 // GET /api/classificationMaterialSon/:id
 router.route("/:id")
   .get(verifyToken, verifyRoles("admin"), getClassfiMaterialById)
-  .put(verifyToken, verifyRoles("admin"), updateClassfiMaterial)
   .delete(verifyToken, verifyRoles("admin"), deleteClassfiMaterial);
+  // .put(verifyToken, verifyRoles("admin"), updateClassfiMaterial)
 
 module.exports = router;

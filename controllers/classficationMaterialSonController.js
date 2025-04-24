@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { classificationMaterialSon, validationClassficationMatrialsSon, classificationMaterialFather,validationUpdateClassficationMatrialsSon } = require("../models/classificationMaterial");
+const { classificationMaterialSon, validationClassficationMatrialsSon, classificationMaterialFather,validationUpdateClassficationMatrialsSon } = require("../models/ClassificationMaterial");
 
 // @desc    Create new classification material
 // @route   POST /api/classificationMaterialSon
@@ -48,35 +48,35 @@ module.exports.getClassfiMaterialById = asyncHandler(async (req, res) => {
 // @desc    Update classification material
 // @route   PUT /api/classificationMaterialSon/:id
 // @access  private
-module.exports.updateClassfiMaterial = asyncHandler(async (req, res) => {
-  const { error } = validationUpdateClassficationMatrialsSon(req.body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
-  const father = await classificationMaterialFather.findById(req.body.fatherName);
-  if (!father) {
-    return res.status(404).json({ message: "Father not found" });
-  }
-  const updatedMaterial = await classificationMaterialSon.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: {
-        fatherName: req.body.fatherName,
-        sonName: req.body.sonName
-      }
-    },
-    { new: true }
-  );
+// module.exports.updateClassfiMaterial = asyncHandler(async (req, res) => {
+//   const { error } = validationUpdateClassficationMatrialsSon(req.body);
+//   if (error) {
+//     return res.status(400).json({ message: error.details[0].message });
+//   }
+//   const father = await classificationMaterialFather.findById(req.body.fatherName);
+//   if (!father) {
+//     return res.status(404).json({ message: "Father not found" });
+//   }
+//   const updatedMaterial = await classificationMaterialSon.findByIdAndUpdate(
+//     req.params.id,
+//     {
+//       $set: {
+//         fatherName: req.body.fatherName,
+//         sonName: req.body.sonName
+//       }
+//     },
+//     { new: true }
+//   );
 
-  if (!updatedMaterial) {
-    return res.status(404).json({ message: "Classification material not found" });
-  }
+//   if (!updatedMaterial) {
+//     return res.status(404).json({ message: "Classification material not found" });
+//   }
 
-  res.status(200).json({
-    message: "Classification material updated successfully",
-    data: updatedMaterial
-  });
-});
+//   res.status(200).json({
+//     message: "Classification material updated successfully",
+//     data: updatedMaterial
+//   });
+// });
 
 // @desc    Delete classification material
 // @route   DELETE /api/classificationMaterialSon/:id

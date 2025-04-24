@@ -7,7 +7,7 @@ const {createMaterialOrder,deleteMatrialOrder,getAllMaterialsOrder,getMaterialOr
 // api/captal/material
 router.route("/").get(getAllMaterialsOrder).post(verifyToken, verifyRoles("admin"), createMaterialOrder)
 // api/captal/material/:id
-router.route("/:id").get(verifyToken, verifyRoles("admin"),getMaterialOrderByID).put(verifyToken, verifyRoles("admin"),updateMaterialOrder).delete(verifyToken, verifyRoles("admin"),deleteMatrialOrder)
+router.route("/:id").get(verifyToken, verifyRoles("admin"),getMaterialOrderByID).delete(verifyToken, verifyRoles("admin"),deleteMatrialOrder)
 
 module.exports = router
 
