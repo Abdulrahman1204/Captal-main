@@ -62,7 +62,7 @@ module.exports.createRecourseUserOrder = [
 // @route   GET /api/recourseUserOrder
 // @access  Private
 module.exports.getAllRecourseUserOrders = asyncHandler(async (req, res) => {
-  const orders = await RecourseUserOrder.find()
+  const orders = await RecourseUserOrder.find().populate('materials', 'materialName')
 
   res.status(200).json({
     count: orders.length,

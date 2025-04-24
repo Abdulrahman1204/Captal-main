@@ -65,8 +65,8 @@ const orderSchema = new mongoose.Schema({
   },
   statusUser: {
     type: String,
-    enum: ["زائر","مؤهل"],
-    default: "زائر"
+    enum: ["visited","eligible"],
+    default: "visited"
   },
   description: {
     type: String,
