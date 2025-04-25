@@ -1,4 +1,6 @@
 const express = require("express");
+const https = require("https");
+const fs = require("fs");
 const morgan = require("morgan");
 const { notFound, errorHandler } = require("./middlewares/Error");
 const cors = require("cors");
@@ -6,51 +8,55 @@ const connectToDb = require("./config/connectToDB");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+
+// Connect to Database
 connectToDb();
 
-//Init App
+// Init App
 const app = express();
 
-//Cors Policy
+// Cors Policy
+const allowedOrigins = [
+  "https://captalsa.com",
+  "http://localhost:5173",
+  "https://srv719334.hstgr.cloud:8000",
+];
+
 app.use(
   cors({
-    origin: "https://captalsa.com",
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   })
 );
 
-//Apply Middlewares
+// Apply Middlewares
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
 
 // Routes
 app.use("/api/captal/auth", require("./routes/auth"));
-app.use(
-  "/api/captal/orderQualification",
-  require("./routes/orderQualification")
-);
+app.use("/api/captal/orderQualification", require("./routes/orderQualification"));
 app.use("/api/captal/orderFinance", require("./routes/orderFinance"));
 app.use("/api/captal/user", require("./routes/user"));
 app.use("/api/captal/material", require("./routes/matrials"));
 app.use("/api/captal/orderMaterial", require("./routes/orderMaterial"));
-app.use("/api/captal/classficationMaterial",require("./routes/classficationMaterial"));
-app.use("/api/captal/classficationMaterialSon",require("./routes/classficationMaterialSon"));
+app.use("/api/captal/classficationMaterial", require("./routes/classficationMaterial"));
+app.use("/api/captal/classficationMaterialSon", require("./routes/classficationMaterialSon"));
 app.use("/api/captal/recourseUserOrder", require("./routes/recourseUser"));
-// app.use("/api/captal/", require("./routes/sendEmail"));
+
+// Special Route for Cookies
 app.get("/api/captal/get-cookies", (req, res) => {
   const myCookieToken = req.cookies.token;
 
   try {
-    // Decode the token without verifying (if you don't have the secret)
     const decoded = jwt.decode(myCookieToken);
-
-    // Or verify the token if you have the secret
-    // const decoded = jwt.verify(myCookieToken, 'your-secret-key');
-
     const role = decoded?.role;
-    const id = decoded?.id; // Assuming the role is stored in the 'role' claim
-    // Assuming the role is stored in the 'role' claim
+    const id = decoded?.id;
 
     res.json({
       cookieValue: myCookieToken,
@@ -65,11 +71,18 @@ app.get("/api/captal/get-cookies", (req, res) => {
   }
 });
 
-// Error Handler middlewares
+// Error Handlers
 app.use(notFound);
 app.use(errorHandler);
 
+// SSL Certificates
+const sslOptions = {
+  key: fs.readFileSync('/etc/letsencrypt/live/captalsa.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/captalsa.com/fullchain.pem'),
+};
+
+// Start HTTPS Server
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () =>
-  console.log(`server is running in ${process.env.NODE_ENV} on port ${PORT}`)
-);
+https.createServer(sslOptions, app).listen(PORT, () => {
+  console.log(`🚀 HTTPS server is running on https://srv719334.hstgr.cloud:${PORT}`);
+});
