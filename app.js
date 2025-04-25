@@ -15,19 +15,10 @@ connectToDb();
 // Init App
 const app = express();
 
-// Cors Policy
-const allowedOrigins = [
-  "https://captalsa.com",
-  "http://localhost:5173",
-];
-
+//Cors Policy
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
-      return callback(new Error('Not allowed by CORS'));
-    },
+    origin: ["http://localhost:5173","https://captalsa.com"],
     credentials: true,
   })
 );
