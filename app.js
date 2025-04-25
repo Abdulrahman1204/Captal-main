@@ -14,7 +14,7 @@ const app = express();
 //Cors Policy
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://46.202.140.142",
     credentials: true,
   })
 );
