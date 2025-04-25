@@ -79,7 +79,9 @@ const cookieOptions = {
       user: {
         _id: user._id,
         phone: user.phone,
+       role: user.role
       },
+      token
     });
 });
 
