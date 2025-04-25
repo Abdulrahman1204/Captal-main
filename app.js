@@ -14,7 +14,7 @@ const app = express();
 //Cors Policy
 app.use(
   cors({
-    origin: "http://46.202.140.142",
+    origin: "https://captalsa.com",
     credentials: true,
   })
 );
