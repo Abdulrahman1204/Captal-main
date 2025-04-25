@@ -19,7 +19,6 @@ const app = express();
 const allowedOrigins = [
   "https://captalsa.com",
   "http://localhost:5173",
-  "https://srv719334.hstgr.cloud:8000",
 ];
 
 app.use(
