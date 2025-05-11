@@ -35,14 +35,10 @@ const materialsOrder = new mongoose.Schema(
     companyName: {
       type: String,
       trim: true,
-      minLength: 2,
-      maxLength: 100,
     },
     dateOfCompany: {
       type: String,
       trim: true,
-      minLength: 2,
-      maxLength: 100,
     },
     materials: [
       {
@@ -54,14 +50,10 @@ const materialsOrder = new mongoose.Schema(
     noteForQuantity: {
       type: String,
       trim: true,
-      minLength: 2,
-      maxLength: 100,
     },
     description: {
       type: String,
       trim: true,
-      minLength: 2,
-      maxLength: 100,
     },
     statusOrder: {
       type: String,
@@ -95,13 +87,13 @@ const validateCreateMatrialOrder = (obj) => {
     lastName: joi.string().trim().min(2).max(100).required(),
     email: joi.string().trim().min(8).max(100).email().required(),
     phone: joi.string().length(10).required(),
-    companyName: joi.string().trim().min(2).max(100),
-    dateOfCompany: joi.string().trim().min(2).max(100),
+    companyName: joi.string().trim(),
+    dateOfCompany: joi.string().trim(),
     materials: joi
       .array()
-      .items(joi.string().trim().min(2).max(100)),
-    noteForQuantity: joi.string().trim().min(2).max(100),
-    description: joi.string().trim().min(2).max(100),
+      .items(joi.string().trim()),
+    noteForQuantity: joi.string().trim(),
+    description: joi.string().trim(),
   });
 
   return schema.validate(obj);
@@ -114,11 +106,11 @@ const validateUpdateMatrialOrder = (obj) => {
     lastName: joi.string().trim().min(2).max(100),
     email: joi.string().trim().min(8).max(100).email(),
     phone: joi.string().length(10),
-    companyName: joi.string().trim().min(2).max(100),
-    dateOfCompany: joi.string().trim().min(2).max(100),
-    materials: joi.array().items(joi.string().trim().min(2).max(100)),
-    noteForQuantity: joi.string().trim().min(2).max(100),
-    description: joi.string().trim().min(2).max(100),
+    companyName: joi.string().trim(),
+    dateOfCompany: joi.string().trim(),
+    materials: joi.array().items(joi.string().trim()),
+    noteForQuantity: joi.string().trim(),
+    description: joi.string().trim(),
     statusOrder: joi.string().valid("accepted", "an invoice has been issued", "shipped","delivered" ,"pending","not accepted"),
   });
 
