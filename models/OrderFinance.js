@@ -95,10 +95,10 @@ function validationOrderFinance(obj) {
       .pattern(/^[0-9]{10}$/)
       .required(),
     email: Joi.string().email().required(),
-    companyName: Joi.string().trim(),
-    dateOfCompany: Joi.string(),
-    lastYearRevenue: Joi.string(),
-    requiredAmount: Joi.string(),
+    companyName: Joi.string().trim().allow(""),
+    dateOfCompany: Joi.string().allow(""),
+    lastYearRevenue: Joi.string().allow(""),
+    requiredAmount: Joi.string().allow(""),
     description: Joi.string().optional()
   });
   return schema.validate(obj);
@@ -111,10 +111,10 @@ function validationUpdateOrderFinance(obj) {
     lastName: Joi.string().trim().min(3).max(100),
     phone: Joi.string().pattern(/^[0-9]{10}$/),
     email: Joi.string().email(),
-    companyName: Joi.string().trim(),
-    dateOfCompany: Joi.string(),
-    lastYearRevenue: Joi.string(),
-    requiredAmount: Joi.string(),
+    companyName: Joi.string().trim().allow(""),
+    dateOfCompany: Joi.string().allow(""),
+    lastYearRevenue: Joi.string().allow(""),
+    requiredAmount: Joi.string().allow(""),
     statusOrder: Joi.string().valid(
       "accepted",
       "an invoice has been issued",
