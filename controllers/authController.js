@@ -80,15 +80,9 @@ const cookieOptions = {
       user: {
         _id: user._id,
         phone: user.phone,
-<<<<<<< HEAD
-        role: user.role,
-      },
-      token,
-=======
        role: user.role
       },
       token
->>>>>>> 3eb9d58033d06d219c6bd5ad0581430f0d7e722c
     });
 });
 
