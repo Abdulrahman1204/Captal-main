@@ -64,10 +64,10 @@ const verifyOTP = asyncHandler(async (req, res) => {
   const token = generateToken(user);
 
   // إعداد خيارات الكوكي
-  const cookieOptions = {
+const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000, // أسبوع واحد
   };
 
@@ -80,9 +80,15 @@ const verifyOTP = asyncHandler(async (req, res) => {
       user: {
         _id: user._id,
         phone: user.phone,
+<<<<<<< HEAD
         role: user.role,
       },
       token,
+=======
+       role: user.role
+      },
+      token
+>>>>>>> 3eb9d58033d06d219c6bd5ad0581430f0d7e722c
     });
 });
 
