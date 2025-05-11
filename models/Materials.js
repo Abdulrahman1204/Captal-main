@@ -10,7 +10,7 @@ const matrialSchema = new mongoose.Schema(
       trim: true,
     },
     serialNumber: {
-      type: Number,
+      type: String, // updated from Number to String
       required: true,
       unique: true,
     },

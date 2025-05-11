@@ -37,22 +37,18 @@ const orderSchema = new mongoose.Schema({
   },
   companyName: {
     type: String,
-    required: true,
     trim: true,
     minlength: 3,
     maxlength: 100,
   },
   dateOfCompany: {
     type: String,
-    required: true,
   },
   lastYearRevenue: {
     type: String,
-    required: true
   },
   requiredAmount: {
     type: String,
-    required: true
   },
   attachedFile: {
     publicId: { type: String, default: null },
@@ -60,7 +56,7 @@ const orderSchema = new mongoose.Schema({
   },
   statusOrder: {
     type: String,
-    enum: ["accepted", "not accepted", "pending"],
+    enum: ["accepted", "an invoice has been issued", "shipped","delivered" ,"pending","not accepted"],
     default: "pending"
   },
   statusUser: {
@@ -83,10 +79,10 @@ function validationOrderQualification(obj) {
     lastName: Joi.string().trim().min(3).max(100).required(),
     phone: Joi.string().pattern(/^[0-9]{10}$/).required(),
     email: Joi.string().email().required(),
-    companyName: Joi.string().trim().min(3).max(100).required(),
-    dateOfCompany: Joi.date().required(),
-    lastYearRevenue: Joi.string().required(),
-    requiredAmount: Joi.string().required(),
+    companyName: Joi.string().trim().min(3).max(100),
+    dateOfCompany: Joi.date(),
+    lastYearRevenue: Joi.string(),
+    requiredAmount: Joi.string(),
     description: Joi.string().optional()
   });
   return schema.validate(obj);
@@ -102,7 +98,7 @@ function validationUpdateOrderQualification(obj) {
     dateOfCompany: Joi.date(),
     lastYearRevenue: Joi.string(),
     requiredAmount: Joi.string(),
-    statusOrder: Joi.string().valid("accepted", "not accepted", "pending"),
+    statusOrder: Joi.string().valid("accepted", "an invoice has been issued", "shipped","delivered" ,"pending","not accepted"),
     description: Joi.string()
   });
   return schema.validate(obj);

@@ -1,14 +1,16 @@
 const asyncHandler = require("express-async-handler");
 const upload = require("../middlewares/photoUpload");
-const { OrderFinance, validationOrderFinance, validationUpdateOrderFinance } = require("../models/OrderFinance");
+const {
+  OrderFinance,
+  validationOrderFinance,
+  validationUpdateOrderFinance,
+} = require("../models/OrderFinance");
 const { cloudinaryRemoveImage } = require("../utils/cloudinary");
 const { User } = require("../models/User");
-
 
 // @desc    Create Order Finance
 // @route   POST => /api/captal/orderFinance
 // @access  Private
-
 
 module.exports.createOrderFinance = [
   upload,
@@ -57,24 +59,23 @@ module.exports.getAllOrderFinance = asyncHandler(async (req, res) => {
 
 // @desc    Get Order Finance By ID
 // @route   GET /api/captal/orderFinance/:id
-// @access  Private    
+// @access  Private
 module.exports.getOrderFinanceById = asyncHandler(async (req, res) => {
   const order = await OrderFinance.findById(req.params.id);
   if (!order) return res.status(404).json({ message: "Order not found" });
   res.status(200).json(order);
 });
 
-
 // @desc    Get Order Finance By User Id
 // @route   GET /api/captal/orderFinance/contractor/:id
-// @access  Private  
-module.exports.getOrdersForContractor = asyncHandler(async(req,res)=>{
-  const user = await User.findById(req.params.id)
-  console.log({user: req.params.id})
+// @access  Private
+module.exports.getOrdersForContractor = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  console.log({ user: req.params.id });
   if (!user) return res.status(404).json({ message: "User not found" });
-  const order = await OrderFinance.find({userId: req.params.id});
-  res.status(200).json(order)
-})
+  const order = await OrderFinance.find({ userId: req.params.id });
+  res.status(200).json(order);
+});
 
 // @desc    Update Order Finance By ID
 // @route   PUT /api/captal/orderFinance/:id
@@ -93,7 +94,9 @@ module.exports.updateOrderFinance = [
     }
 
     if (order.userId && order.userId.toString() !== req.user.id) {
-      return res.status(403).json({ message: "You are not allowed to update this order" });
+      return res
+        .status(403)
+        .json({ message: "You are not allowed to update this order" });
     }
 
     let updatedFile = order.attachedFile;
@@ -137,7 +140,7 @@ module.exports.updateOrderFinance = [
 
 // @desc    Delete Order Finance
 // @route   DELETE /api/captal/orderFinance/:id
-// @access  Private 
+// @access  Private
 module.exports.deleteOrderFinance = asyncHandler(async (req, res) => {
   const order = await OrderFinance.findById(req.params.id);
   if (!order) return res.status(404).json({ message: "Order not found" });
@@ -145,7 +148,6 @@ module.exports.deleteOrderFinance = asyncHandler(async (req, res) => {
   await OrderFinance.findByIdAndDelete(req.params.id);
   res.status(200).json({ message: "Order deleted successfully" });
 });
-
 
 // @desc    Update Order Finance Status
 // @route   PUT /api/captal/orderQualification/status/:id
@@ -155,7 +157,7 @@ module.exports.updateStatus = asyncHandler(async (req, res) => {
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
-  
+
   const order = await OrderFinance.findById(req.params.id);
   if (!order) return res.status(404).json({ message: "Order not found" });
 
@@ -167,3 +169,4 @@ module.exports.updateStatus = asyncHandler(async (req, res) => {
 
   res.status(200).json(updatedStatus);
 });
+

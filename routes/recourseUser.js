@@ -8,13 +8,14 @@ const {
   updateOrderStatus,
   deleteRecourseUserOrder,
   getLocation,
+  updateBillFile,
 } = require("../controllers/recourseUserController");
 const { verifyToken,verifyRoles} = require("../middlewares/verifyToken");
 
 router
   .route("/")
   .post(verifyToken,verifyRoles("admin"), createRecourseUserOrder)
-  .get(verifyToken,verifyRoles("recourse"), getAllRecourseUserOrders);
+  .get(verifyToken,verifyRoles("recourse", "admin"), getAllRecourseUserOrders);
 
 router.route("/:id")
   .get(verifyToken,verifyRoles("admin"), getRecourseUserOrderById)
@@ -26,5 +27,8 @@ router.route("/:id/status")
 
 
 router.route('/location/address-from-coords').get(verifyToken,verifyRoles("admin"),getLocation);
+
+// /api/captal/recourseUserOrder/bill/:id
+router.route("/bill/:id").put(verifyToken, verifyRoles("admin"), updateBillFile);
 
 module.exports = router;

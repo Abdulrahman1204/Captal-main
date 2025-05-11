@@ -1,9 +1,10 @@
 const asyncHandler = require("express-async-handler");
-const generateToken = require('../utils/token');
+const generateToken = require("../utils/token");
 const { User } = require("../models/User");
 
 // توليد كود OTP من 6 أرقام
-const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
+const generateOTP = () =>
+  Math.floor(100000 + Math.random() * 900000).toString();
 
 /**
  * @desc إرسال كود OTP للمستخدم
@@ -13,12 +14,12 @@ const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString()
 const sendOTP = asyncHandler(async (req, res) => {
   const { phone } = req.body;
   if (!phone) {
-    return res.status(400).json({ message: 'رقم الهاتف مطلوب' });
+    return res.status(400).json({ message: "رقم الهاتف مطلوب" });
   }
 
   const user = await User.findOne({ phone });
   if (!user) {
-    return res.status(404).json({ message: 'رقم الهاتف غير مسجل لدينا' });
+    return res.status(404).json({ message: "رقم الهاتف غير مسجل لدينا" });
   }
 
   const otp = generateOTP();
@@ -29,9 +30,9 @@ const sendOTP = asyncHandler(async (req, res) => {
   await user.save();
 
   res.status(200).json({
-    message: 'تم إرسال كود التحقق بنجاح',
+    message: "تم إرسال كود التحقق بنجاح",
     user: user._id,
-    otp: user.otp
+    otp: user.otp,
   });
 });
 
@@ -44,19 +45,19 @@ const verifyOTP = asyncHandler(async (req, res) => {
   const { otp } = req.body;
 
   // تحقق من صحة OTP
-  const user = await User.findById(req.params.id).select('+otp +expiresAt');
+  const user = await User.findById(req.params.id).select("+otp +expiresAt");
   if (!user || user.otp !== otp) {
-    return res.status(400).json({ message: 'كود التحقق غير صحيح' });
+    return res.status(400).json({ message: "كود التحقق غير صحيح" });
   }
 
   // تحقق من انتهاء الصلاحية
   if (new Date(user.expiresAt) < new Date()) {
-    return res.status(400).json({ message: 'انتهت صلاحية الكود' });
+    return res.status(400).json({ message: "انتهت صلاحية الكود" });
   }
 
   // تحديث المستخدم وإزالة OTP
   await User.findByIdAndUpdate(user._id, {
-    $unset: { otp: 1, expiresAt: 1 }
+    $unset: { otp: 1, expiresAt: 1 },
   });
 
   // إنشاء التوكن
@@ -79,7 +80,9 @@ const verifyOTP = asyncHandler(async (req, res) => {
       user: {
         _id: user._id,
         phone: user.phone,
+        role: user.role,
       },
+      token,
     });
 });
 

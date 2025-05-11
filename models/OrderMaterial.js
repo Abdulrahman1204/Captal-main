@@ -34,14 +34,12 @@ const materialsOrder = new mongoose.Schema(
     },
     companyName: {
       type: String,
-      required: true,
       trim: true,
       minLength: 2,
       maxLength: 100,
     },
     dateOfCompany: {
       type: String,
-      required: true,
       trim: true,
       minLength: 2,
       maxLength: 100,
@@ -55,22 +53,20 @@ const materialsOrder = new mongoose.Schema(
     ],
     noteForQuantity: {
       type: String,
-      required: true,
       trim: true,
       minLength: 2,
       maxLength: 100,
     },
     description: {
       type: String,
-      required: true,
       trim: true,
       minLength: 2,
       maxLength: 100,
     },
     statusOrder: {
       type: String,
-      enum: ["accepted", "not accepted", "pending"],
-      default: "pending",
+      enum: ["accepted", "an invoice has been issued", "shipped","delivered" ,"pending","not accepted"],
+      default: "pending"
     },
     statusUser: {
       type: String,
@@ -99,13 +95,13 @@ const validateCreateMatrialOrder = (obj) => {
     lastName: joi.string().trim().min(2).max(100).required(),
     email: joi.string().trim().min(8).max(100).email().required(),
     phone: joi.string().length(10).required(),
-    companyName: joi.string().trim().min(2).max(100).required(),
-    dateOfCompany: joi.string().trim().min(2).max(100).required(),
+    companyName: joi.string().trim().min(2).max(100),
+    dateOfCompany: joi.string().trim().min(2).max(100),
     materials: joi
       .array()
-      .items(joi.string().trim().min(2).max(100).required()),
-    noteForQuantity: joi.string().trim().min(2).max(100).required(),
-    description: joi.string().trim().min(2).max(100).required(),
+      .items(joi.string().trim().min(2).max(100)),
+    noteForQuantity: joi.string().trim().min(2).max(100),
+    description: joi.string().trim().min(2).max(100),
   });
 
   return schema.validate(obj);
@@ -123,7 +119,7 @@ const validateUpdateMatrialOrder = (obj) => {
     materials: joi.array().items(joi.string().trim().min(2).max(100)),
     noteForQuantity: joi.string().trim().min(2).max(100),
     description: joi.string().trim().min(2).max(100),
-    statusOrder: joi.string().valid("accepted", "not accepted", "pending"),
+    statusOrder: joi.string().valid("accepted", "an invoice has been issued", "shipped","delivered" ,"pending","not accepted"),
   });
 
   return schema.validate(obj);

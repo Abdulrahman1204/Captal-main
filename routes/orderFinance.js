@@ -27,4 +27,6 @@ router.route("/status/:id").patch(verifyToken, verifyRoles("admin"), updateStatu
 
 // /api/captal/orderFinance/:userId
 router.route('/contractor/:id').get(verifyToken, verifyRoles("contractor"), getOrdersForContractor)
+
+
 module.exports = router;

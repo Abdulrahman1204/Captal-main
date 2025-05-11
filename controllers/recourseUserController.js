@@ -214,3 +214,40 @@ module.exports.getLocation = asyncHandler( async (req, res) => {
     res.status(500).send('Server error');
   }
 })
+
+// @desc    Update Order recourse bill folder
+// @route   PUT /api/captal/recourseUserOrder/bill/:id
+// @access  Private (admin)
+module.exports.updateBillFile = [
+  upload,
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const order = await RecourseUserOrder.findById(id);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    let updatedFile = order.billFile;
+
+    if (req.file) {
+      if (order.billFile && order.billFile.publicId) {
+        await cloudinaryRemoveImage(order.billFile.publicId);
+      }
+
+      updatedFile = {
+        url: req.file.path,
+        publicId: req.file.filename,
+      };
+    }
+
+    order.billFile = updatedFile;
+    const updatedOrder = await order.save();
+
+    res.status(200).json({
+      success: true,
+      data: updatedOrder,
+      message: "Bill file updated successfully",
+    });
+  }),
+];
