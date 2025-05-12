@@ -65,7 +65,7 @@ module.exports.createOrderMaterial = [
 // @access  Private
 
 module.exports.getAllOrderMaterials = asyncHandler(async (req, res) => {
-  const orders = await MaterialsOrder.find();
+  const orders = await MaterialsOrder.find().sort({ createdAt: -1 });
   res.status(200).json(orders);
 });
 
