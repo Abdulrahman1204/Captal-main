@@ -64,10 +64,14 @@ module.exports.createMaterialOrder = [
  */
 
 module.exports.getAllMaterialsOrder = asyncHandler(async (req, res) => {
-  const matrials = await Materials.find().populate(
-    "classification",
-    "fatherName sonName"
-  );
+  const matrials = await Materials.find().populate({
+    path: "classification",
+    select: "fatherName",
+    populate: {
+      path: "sonNames", // This uses your virtual field
+      select: "sonName",
+    },
+  });
   res.status(200).json(matrials);
 });
 
