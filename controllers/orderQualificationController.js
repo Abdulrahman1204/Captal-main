@@ -42,7 +42,7 @@ module.exports.createOrderQualification = [
 // @route   GET /api/orderQualification
 // @access  Private (admin)
 module.exports.getAllOrderQualifications = asyncHandler(async (req, res) => {
-  const orders = await OrderQualification.find();
+  const orders = await OrderQualification.find().sort({ createdAt: -1 });
   res.status(200).json(orders);
 });
 
