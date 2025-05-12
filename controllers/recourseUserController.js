@@ -21,6 +21,19 @@ module.exports.createRecourseUserOrder = [
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
+     const advance = parseFloat(req.body.advance.replace("%", "")) || 0;
+    const uponDelivry = parseFloat(req.body.uponDelivry.replace("%", "")) || 0;
+    const afterDelivry =
+      parseFloat(req.body.afterDelivry.replace("%", "")) || 0;
+
+    const total = advance + uponDelivry + afterDelivry;
+
+    if (total !== 100) {
+      return res
+        .status(400)
+        .json({ message: "مجموع الدفعات يجب أن يكون 100%" });
+    }
+    
         const existingUser = await User.findOne({ phone: req.body.recoursePhone });
         console.log(existingUser);
         const userId = existingUser ? existingUser._id : null;
