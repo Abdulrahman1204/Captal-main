@@ -36,6 +36,7 @@ module.exports.createOrderFinance = [
       email: req.body.email,
       companyName: req.body.companyName,
       dateOfCompany: req.body.dateOfCompany,
+      projectName: req.body.projectName,
       lastYearRevenue: req.body.lastYearRevenue,
       requiredAmount: req.body.requiredAmount,
       description: req.body.description,
@@ -118,6 +119,7 @@ module.exports.updateOrderFinance = [
       email: req.body.email || order.email,
       companyName: req.body.companyName || order.companyName,
       dateOfCompany: req.body.dateOfCompany || order.dateOfCompany,
+      projectName: req.body.projectName || order.projectName,
       lastYearRevenue: req.body.lastYearRevenue || order.lastYearRevenue,
       requiredAmount: req.body.requiredAmount || order.requiredAmount,
       statusOrder: req.body.statusOrder || order.statusOrder,
@@ -169,4 +171,3 @@ module.exports.updateStatus = asyncHandler(async (req, res) => {
 
   res.status(200).json(updatedStatus);
 });
-
