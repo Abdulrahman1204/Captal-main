@@ -54,7 +54,7 @@ module.exports.createOrderFinance = [
 // @access  Private
 
 module.exports.getAllOrderFinance = asyncHandler(async (req, res) => {
-  const orders = await OrderFinance.find();
+  const orders = await OrderFinance.find().sort({ createdAt: -1 });
   res.status(200).json(orders);
 });
 
