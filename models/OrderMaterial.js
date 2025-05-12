@@ -98,12 +98,12 @@ const validateCreateMatrialOrder = (obj) => {
     lastName: joi.string().trim().min(2).max(100).required(),
     email: joi.string().trim().min(8).max(100).email().required(),
     phone: joi.string().length(10).required(),
-    companyName: joi.string().trim(),
-    dateOfCompany: joi.string().trim(),
+    companyName: joi.string().trim().allow(""),
+    dateOfCompany: joi.string().trim().allow(""),
     materials: joi.array().items(joi.string().trim()),
-    projectName: joi.string().trim(),
-    noteForQuantity: joi.string().trim(),
-    description: joi.string().trim(),
+    projectName: joi.string().trim().allow(""),
+    noteForQuantity: joi.string().trim().allow(""),
+    description: joi.string().trim().allow(""),
   });
 
   return schema.validate(obj);
@@ -116,12 +116,12 @@ const validateUpdateMatrialOrder = (obj) => {
     lastName: joi.string().trim().min(2).max(100),
     email: joi.string().trim().min(8).max(100).email(),
     phone: joi.string().length(10),
-    companyName: joi.string().trim(),
-    dateOfCompany: joi.string().trim(),
+    companyName: joi.string().trim().allow(""),
+    dateOfCompany: joi.string().trim().allow(""),
     materials: joi.array().items(joi.string()),
-    projectName: joi.string().trim(),
-    noteForQuantity: joi.string().trim(),
-    description: joi.string().trim(),
+    projectName: joi.string().trim().allow(""),
+    noteForQuantity: joi.string().trim().allow(""),
+    description: joi.string().trim().allow(""),
     statusOrder: joi
       .string()
       .valid(
