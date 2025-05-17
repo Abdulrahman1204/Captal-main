@@ -7,6 +7,7 @@ const cors = require("cors");
 const connectToDb = require("./config/connectToDB");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const compression = require("compression");
 require("dotenv").config();
 
 // Connect to Database
@@ -24,6 +25,7 @@ app.use(
 );
 
 // Apply Middlewares
+app.use(compression());
 app.use(express.json());
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -52,27 +54,6 @@ app.use("/api/captal/classficationMaterial", require("./routes/classficationMate
 app.use("/api/captal/classficationMaterialSon", require("./routes/classficationMaterialSon"));
 app.use("/api/captal/recourseUserOrder", require("./routes/recourseUser"));
 
-// Special Route for Cookies
-app.get("/api/captal/get-cookies", (req, res) => {
-  const myCookieToken = req.cookies.token;
-
-  try {
-    const decoded = jwt.decode(myCookieToken);
-    const role = decoded?.role;
-    const id = decoded?.id;
-
-    res.json({
-      cookieValue: myCookieToken,
-      role: role || "No role found in token",
-      id: id || "No Id found in Token",
-    });
-  } catch (error) {
-    res.status(400).json({
-      error: "Invalid token",
-      details: error.message,
-    });
-  }
-});
 
 // Error Handlers
 app.use(notFound);
