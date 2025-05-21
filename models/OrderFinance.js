@@ -99,7 +99,7 @@ function validationOrderFinance(obj) {
     email: Joi.string().email().min(5).max(100).allow(""),
     companyName: Joi.string().trim().allow(""),
     dateOfCompany: Joi.string().allow(""),
-    projectName: joi.string().trim().allow(""),
+    projectName: Joi.string().trim().allow(""),
     lastYearRevenue: Joi.string().allow(""),
     requiredAmount: Joi.string().allow(""),
     description: Joi.string().optional(),
@@ -116,7 +116,7 @@ function validationUpdateOrderFinance(obj) {
     email: Joi.string().email(),
     companyName: Joi.string().trim().allow(""),
     dateOfCompany: Joi.string().allow(""),
-    projectName: joi.string().trim().allow(""),
+    projectName: Joi.string().trim().allow(""),
     lastYearRevenue: Joi.string().allow(""),
     requiredAmount: Joi.string().allow(""),
     statusOrder: Joi.string().valid(
