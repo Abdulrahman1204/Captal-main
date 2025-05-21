@@ -102,7 +102,7 @@ function validationOrderFinance(obj) {
     projectName: Joi.string().trim().allow(""),
     lastYearRevenue: Joi.string().allow(""),
     requiredAmount: Joi.string().allow(""),
-    description: Joi.string().optional(),
+    description: Joi.string().optional().allow(""),
   });
   return schema.validate(obj);
 }
