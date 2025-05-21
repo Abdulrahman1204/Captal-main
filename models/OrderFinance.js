@@ -32,8 +32,6 @@ const orderSchema = new mongoose.Schema(
     email: {
       type: String,
       trim: true,
-      minlength: 5,
-      maxlength: 100,
     },
     companyName: {
       type: String,
@@ -96,7 +94,7 @@ function validationOrderFinance(obj) {
     phone: Joi.string()
       .pattern(/^[0-9]{10}$/)
       .required(),
-    email: Joi.string().email().min(5).max(100).allow(""),
+    email: Joi.string().email().allow(""),
     companyName: Joi.string().trim().allow(""),
     dateOfCompany: Joi.string().allow(""),
     projectName: Joi.string().trim().allow(""),
