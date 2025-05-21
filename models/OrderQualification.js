@@ -74,7 +74,7 @@ function validationOrderQualification(obj) {
     firstName: Joi.string().trim().min(3).max(100).required(),
     lastName: Joi.string().trim().min(3).max(100).required(),
     phone: Joi.string().pattern(/^[0-9]{10}$/).required(),
-    email: Joi.string().min(8).max(100).allow(""),
+    email: Joi.string().email().min(5).max(100).allow(""),
     companyName: Joi.string().trim().allow(""),
     dateOfCompany: Joi.date().allow(""),
     lastYearRevenue: Joi.string().allow(""),
