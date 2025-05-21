@@ -7,7 +7,6 @@ const cors = require("cors");
 const connectToDb = require("./config/connectToDB");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
-const compression = require("compression");
 require("dotenv").config();
 
 // Connect to Database
@@ -27,9 +26,8 @@ app.use(
 // Apply Middlewares
 app.use(compression());
 app.use(express.json());
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+app.use(morgan("dev"));
+
 app.use(cookieParser());
 
 // Routes
