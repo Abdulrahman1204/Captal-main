@@ -21,8 +21,6 @@ const materialsOrder = new mongoose.Schema(
     email: {
       type: String,
       trim: true,
-      minLength: 8,
-      maxLength: 40,
     },
     phone: {
       type: String,
@@ -95,7 +93,7 @@ const validateCreateMatrialOrder = (obj) => {
   const schema = joi.object({
     firstName: joi.string().trim().min(2).max(100).required(),
     lastName: joi.string().trim().min(2).max(100).required(),
-    email: joi.string().trim().email().min(5).max(100).allow(""),
+    email: joi.string().trim().email().allow(""),
     phone: joi.string().length(10).required(),
     companyName: joi.string().trim().allow(""),
     dateOfCompany: joi.string().trim().allow(""),
