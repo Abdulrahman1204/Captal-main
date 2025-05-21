@@ -34,8 +34,8 @@ const createUser = [
     const existingUser = await User.findOne({ phone });
     if (existingUser) {
       return res
-        .status(409)
-        .json({ message: "البريد الإلكتروني مستخدم من قبل" });
+        .status(400)
+        .json({ message: "الهاتف مستخدم من قبل" });
     }
 
     const user = await User.create({
