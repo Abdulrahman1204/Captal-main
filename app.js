@@ -24,7 +24,6 @@ app.use(
 );
 
 // Apply Middlewares
-app.use(compression());
 app.use(express.json());
 app.use(morgan("dev"));
 
